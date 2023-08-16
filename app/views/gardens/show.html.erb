@@ -1,0 +1,32 @@
+<div class="d-flex flex-column gap-2">
+  <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= @garden.banner_url %>);">
+    <div class="container">
+      <h1><%= @garden.name %></h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <% @garden.plants.each do |plant| %>
+      <div class="card-category mb-2" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= plant.image_url %>)">
+        <%= plant.name %>
+        <%= link_to '+', plant_path(plant), class: 'card-remove-link', data: { turbo_method: :delete, turbo_confirm: 'Are you sure ?'} %>
+      </div>
+
+    <% end %>
+  </div>
+
+  <div class="container">
+    <%= simple_form_for [@garden, @plant] do |f| %>
+      <%= f.input :name %>
+      <%= f.input :image_url %>
+      <%= f.submit 'Save', class:'btn btn-info' %>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+    <%= link_to "Edit this garden", edit_garden_path(@garden), class: 'btn btn-primary' %> |
+    <%= link_to "Back to gardens", gardens_path, class: 'btn btn-info' %> |
+
+    <%= button_to "Destroy this garden", @garden, method: :delete, class: 'btn btn-secondary' %>
+  </div>
+</div>
